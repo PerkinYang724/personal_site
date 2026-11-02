@@ -1,0 +1,24 @@
+---
+import Base from './Base.astro';
+import { formatDate } from '../utils';
+
+interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  tags?: string[];
+  kicker?: string;
+}
+const { title, description, date, tags = [], kicker } = Astro.props;
+---
+<Base title={title} description={description}>
+  <article>
+    <h1>{title}</h1>
+    <div class="meta">
+      {kicker && <span>{kicker} · </span>}
+      <time datetime={date.toISOString()}>{formatDate(date)}</time>
+      {tags.length > 0 && <span> · {tags.join(', ')}</span>}
+    </div>
+    <slot />
+  </article>
+</Base>

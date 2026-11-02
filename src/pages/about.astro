@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site';
+---
+<Base title="About">
+  <h1>About</h1>
+  <!-- Write your story here. Plain HTML is fine. -->
+  <p>I'm {SITE.name}. Replace this paragraph with who you are, what you're working on, and what you care about.</p>
+  <p>Some things I've built include productivity tools, podcast and content distribution agents, and small Mac utilities — see <a href="/projects/">projects</a>.</p>
+
+  <h2>Now</h2>
+  <p class="muted">What you're focused on this month.</p>
+
+  <h2>Get in touch</h2>
+  <p>
+    Email me at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>, or find me on
+    {SITE.links.map((l, i) => <>{i > 0 && ', '}<a href={l.href}>{l.label}</a></>)}.
+  </p>
+</Base>

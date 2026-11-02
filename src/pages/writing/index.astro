@@ -1,0 +1,18 @@
+---
+import Base from '../../layouts/Base.astro';
+
+import { formatDate, getPosts } from '../../utils';
+
+const posts = await getPosts('writing');
+---
+<Base title="Writing">
+  <h1>Writing</h1>
+  <p class="lede">Essays, notes, and ideas.</p>
+  <h2>{posts.length} {posts.length === 1 ? 'entry' : 'entries'}</h2>
+  <ul class="list">
+    {posts.map((p) => (
+      <li><a href={`/writing/${p.id}/`}>{p.data.title}</a><time>{formatDate(p.data.date)}</time></li>
+    ))}
+  </ul>
+  
+</Base>

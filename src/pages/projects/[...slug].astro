@@ -1,0 +1,22 @@
+---
+import { render } from 'astro:content';
+import Post from '../../layouts/Post.astro';
+import { getProjects } from '../../utils';
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { url, repo, status } = project.data;
+---
+<Post {...project.data} kicker={status}>
+  {(url || repo) && (
+    <p>
+      {url && <a class="button" href={url}>Visit project</a>}
+      {repo && <a href={repo} style="margin-left: 1rem">Source code →</a>}
+    </p>
+  )}
+  <Content />
+</Post>

@@ -1,0 +1,17 @@
+---
+import { render } from 'astro:content';
+import Post from '../../layouts/Post.astro';
+import NewsletterCta from '../../components/NewsletterCta.astro';
+import { getPosts } from '../../utils';
+
+export async function getStaticPaths() {
+  const posts = await getPosts('newsletter');
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<Post {...post.data} kicker={post.data.issue ? `Issue #${post.data.issue}` : "Newsletter"}>
+  <Content />
+  <NewsletterCta />
+</Post>

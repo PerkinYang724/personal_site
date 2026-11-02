@@ -1,0 +1,10 @@
+---
+import { SITE } from '../site';
+---
+<section class="cta">
+  <h2>Get the newsletter</h2>
+  <p class="muted">Occasional notes on what I'm building, reading, and thinking about.</p>
+  {SITE.newsletterSignupUrl
+    ? <a class="button" href={SITE.newsletterSignupUrl}>Subscribe</a>
+    : <a class="button" href="/rss.xml">Follow via RSS</a>}
+</section>
