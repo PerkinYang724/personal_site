@@ -29,14 +29,15 @@ const pageTitle = title ? `${title} · ${SITE.title}` : SITE.title;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />
     <slot name="head" />
-    {/* Google tag (Tag Manager container). Only on the built site, so local previews are not counted as visits. */}
+    {/* Google Analytics. Only on the built site, so local previews are not counted as visits. */}
     {import.meta.env.PROD && (
       <>
-        <script is:inline async src="https://www.googletagmanager.com/gtm.js?id=GTM-NVRBSW3D"></script>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-5K4BYRTPE1"></script>
         <script is:inline>
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
+          gtag('config', 'G-5K4BYRTPE1');
         </script>
       </>
     )}
