@@ -6,9 +6,9 @@ export const SITE = {
   description: 'Writing, newsletter, and projects by Perkin Yang — all in one place.',
   email: 'yang.perkin0909@gmail.com',
   links: [
-    { label: 'GitHub', href: 'https://github.com/' },
-    { label: 'X / Twitter', href: 'https://x.com/' },
-    { label: 'LinkedIn', href: 'https://linkedin.com/' },
+    { label: 'YouTube', href: 'https://www.youtube.com/@mrperkin0909' },
+    { label: 'Substack', href: 'https://perkin0909.substack.com' },
+    { label: 'GitHub', href: 'https://github.com/PerkinYang724' },
   ],
   // Paste your newsletter signup URL here (Substack, Buttondown, beehiiv, ConvertKit…).
   newsletterSignupUrl: 'https://perkin0909.substack.com/subscribe',

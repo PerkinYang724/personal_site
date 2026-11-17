@@ -1,6 +1,6 @@
 ---
 title: "Youtube"
-symbol: PRJ3
+symbol: YT
 category: Social media
 description: capturing the world through my lens
 date: 2024-01-01

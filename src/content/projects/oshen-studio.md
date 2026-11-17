@@ -1,6 +1,6 @@
 ---
 title: "Oshen Studio"
-symbol: PRJ1
+symbol: OSHEN
 category: Agency
 description: media agency that powered all my work
 date: 2026-01-01
