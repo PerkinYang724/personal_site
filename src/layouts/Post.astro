@@ -1,6 +1,7 @@
 ---
-import '@fontsource/noto-serif-tc/400.css';
-import '@fontsource/noto-serif-tc/600.css';
+// The Chinese font's stylesheets are large, so they are linked only on bilingual posts.
+import zh400 from '@fontsource/noto-serif-tc/400.css?url';
+import zh600 from '@fontsource/noto-serif-tc/600.css?url';
 import Base from './Base.astro';
 import { formatDate } from '../utils';
 
@@ -16,6 +17,7 @@ interface Props {
 const { title, titleZh, description, date, tags = [], kicker } = Astro.props;
 ---
 <Base title={title} description={description}>
+  {titleZh && <Fragment slot="head"><link rel="stylesheet" href={zh400} /><link rel="stylesheet" href={zh600} /></Fragment>}
   <article class:list={['prose', titleZh && 'prose-bi']} data-lang={titleZh ? 'both' : undefined}>
     <div class="mono dim meta">
       {kicker && <span>{kicker}</span>}
