@@ -1,0 +1,47 @@
+---
+import { HOME } from '../../data/home';
+import { formatDate, getPosts } from '../../utils';
+import { getSubstackPosts } from '../../substack';
+const { words: w } = HOME;
+const [essay] = await getPosts('writing');
+const [brief] = await getSubstackPosts(1);
+---
+<section class="words" id="writing" data-words>
+  <div class="words-pad">
+    <div class="words-board">
+      <div class="wb-panel">
+        <a class="wb-select" href={essay ? `/writing/${essay.id}/` : '/writing/'}>
+          <span class="mono dim">Latest essay</span><b>{essay?.data.title ?? 'Coming soon'}</b><i>↗</i>
+        </a>
+        <a class="wb-select" href={brief?.url ?? '/newsletter/'} target={brief ? '_blank' : undefined} rel={brief ? 'noopener' : undefined}>
+          <span class="mono dim">Latest brief</span><b>{brief ? `Tech & Business Brief, ${formatDate(brief.date)}` : 'Coming soon'}</b><i>↗</i>
+        </a>
+        <div class="wb-note"><b>Signal / Perkin</b><span class="mono dim">Writing weekly, Santa Clara</span></div>
+        <div class="wb-forecast">
+          <span class="serif">{w.forecast}</span>
+          <strong class="serif">+<span data-forecast data-to={w.number}>{w.number.toFixed(2)}</span>%</strong>
+          <div class="wb-tags mono">{w.forecastTags.map((t, i) => <span class:list={{ hot: i === 0 }}>{t}</span>)}</div>
+        </div>
+      </div>
+      <div class="wb-charts">
+        {w.charts.map((c) => (
+          <div class="chart" data-chart>
+            <b>{c.label}</b><span class="mono dim">{c.meta}</span>
+            <svg preserveAspectRatio="none" aria-hidden="true"></svg>
+          </div>
+        ))}
+      </div>
+      <div class="wb-paper" data-paper>
+        <canvas aria-hidden="true"></canvas>
+        <pre class="mono" aria-hidden="true">{w.code}</pre>
+      </div>
+    </div>
+    <div class="words-foot">
+      <div>
+        <div class="eyebrow"><span class="serif">{w.serif}</span><span class="pill mono">{w.tag}</span></div>
+        <h2 class="clip-up"><span data-rise>{w.headline}</span></h2>
+      </div>
+      <p class="dim">{w.aside} <a class="mono" href="/writing/">All writing →</a></p>
+    </div>
+  </div>
+</section>

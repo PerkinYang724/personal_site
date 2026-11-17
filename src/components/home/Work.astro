@@ -1,0 +1,79 @@
+---
+import { HOME } from '../../data/home';
+import { getPosts, getProjects } from '../../utils';
+import { getSubstackCount } from '../../substack';
+const { work } = HOME;
+const projects = await getProjects();
+const [writing, issues] = await Promise.all([getPosts('writing'), getSubstackCount()]);
+const categories = ['All', ...new Set(projects.map((p) => p.data.category))];
+const stats = [
+  { label: 'Projects', value: projects.length },
+  { label: 'Essays', value: writing.length },
+  { label: 'Issues', value: issues },
+].filter((s) => s.value > 0);
+const seedBars = (s: string) => {
+  let h = 7;
+  for (const c of s) h = (h * 31 + c.charCodeAt(0)) % 9973;
+  return Array.from({ length: 9 }, (_, i) => 25 + ((h * (i + 3)) % 76));
+};
+---
+<section class="work" id="projects" data-work>
+  <div class="work-glow"></div>
+  <div class="work-pad">
+    <div class="work-left">
+      <p class="work-kicker serif">{work.kicker} <i class="blink"></i></p>
+      <div class="work-ticker">
+        <h2 data-count-title>{work.ticker}</h2>
+        <div class="work-price">
+          <span class="mono dim">{work.priceLabel}</span>
+          <b data-price data-to={work.price}>{work.price.toFixed(2)}</b>
+          <span class="mono up">▲ {work.change}</span>
+          <svg viewBox="0 0 120 22" preserveAspectRatio="none" aria-hidden="true"><path data-trail pathLength="1" d="M0 16 L14 14 L24 18 L38 12 L52 15 L66 9 L78 12 L92 6 L104 8 L120 2"/></svg>
+        </div>
+      </div>
+      <div class="work-sub">
+        <h3 class="serif">{work.heading}</h3><span class="pill mono">{work.live}</span>
+      </div>
+      <dl class="work-stats">
+        {stats.map((s) => <div><dt class="mono dim">{s.label}</dt><dd data-count={s.value}>{s.value}</dd></div>)}
+      </dl>
+      <div class="work-tabs mono" role="tablist">
+        {categories.map((c, i) => (
+          <button role="tab" type="button" aria-selected={i === 0 ? 'true' : 'false'} data-tab={c}>
+            {c}{i === 0 && <em>{projects.length}</em>}
+          </button>
+        ))}
+      </div>
+      <div class="work-table" role="table">
+        <div class="wt-head mono dim" role="row"><span>Project</span><span>About</span><span>Status</span><span>Activity</span><span>Year</span></div>
+        {projects.map((p, i) => {
+          const symbol = p.data.symbol ?? p.data.title.slice(0, 4).toUpperCase();
+          return (
+            <a class:list={['wt-row', { on: i === 0 }]} role="row" href={`/projects/${p.id}/`} data-cat={p.data.category}>
+              <span class="wt-asset"><i class="badge" style={`--h:${(i * 57 + 12) % 360}`}>{symbol[0]}</i><span><b>{symbol}</b><small class="mono dim">{p.data.title}</small></span></span>
+              <span class="wt-about"><span>{p.data.category}</span><small class="dim">{p.data.description}</small></span>
+              <span class={`wt-status mono s-${p.data.status}`}>{p.data.status}</span>
+              <span class="wt-bars" aria-hidden="true">{seedBars(p.id).map((b) => <i style={`height:${b}%`}></i>)}</span>
+              <span class="mono dim">{p.data.date.getUTCFullYear()}</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+    <div class="work-right">
+      <div class="globe" data-globe>
+        <canvas aria-hidden="true"></canvas>
+        <div class="globe-pin">
+          <span class="mono dim">Based in</span>
+          <b>{work.location.name}</b>
+          <span class="mono dim">{work.location.coords}</span>
+          <span class="mono">{work.location.note}</span>
+        </div>
+      </div>
+      <div class="layers mono">
+        <span class="dim">Map layers</span>
+        <ul>{work.layers.map((l, i) => <li><i class:list={{ on: i < 2 }}></i>{l}</li>)}</ul>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+---
+import { SITE } from '../site';
+import { formatDate } from '../utils';
+import { getSubstackPosts, substackUrl } from '../substack';
+
+interface Props {
+  limit?: number;
+  home?: boolean;
+}
+const { limit = 5, home = false } = Astro.props;
+const base = substackUrl();
+const posts = await getSubstackPosts(limit);
+const s = SITE.substack;
+---
+{posts.length > 0 && (
+  <section class:list={['sfeed', { 'sfeed-home': home }]} id="substack">
+    <header class="sfeed-head">
+      <div>
+        <span class="mono dim"><i class="sfeed-dot"></i>{s.kicker} / Latest {formatDate(posts[0].date)}</span>
+        <h2 class="serif">{s.heading}</h2>
+        <p class="dim">{s.blurb}</p>
+      </div>
+      <a class="btn-light mono" href={`${base}/subscribe`} target="_blank" rel="noopener"><span>✦</span> {s.subscribeLabel}</a>
+    </header>
+    <ol class="sfeed-list">
+      {posts.map((p, i) => (
+        <li>
+          <a href={p.url} target="_blank" rel="noopener">
+            <span class="sfeed-n mono dim">{String(i + 1).padStart(2, '0')}</span>
+            {p.image ? <img class="sfeed-img" src={p.image} alt="" loading="lazy" decoding="async" /> : <span class="sfeed-img" aria-hidden="true"></span>}
+            <span class="sfeed-body">
+              <b>{p.title}</b>
+              {p.lead.length > 0 ? p.lead.map((l) => <small class="dim">{l}</small>) : <small class="dim">{p.summary}</small>}
+              {p.headlines.length > 0 && (
+                <ul class="sfeed-heads">
+                  {p.headlines.map((h) => <li>{h}</li>)}
+                  {p.stories > p.headlines.length && <li class="dim">+ {p.stories - p.headlines.length} more stories</li>}
+                </ul>
+              )}
+            </span>
+            <span class="sfeed-meta mono dim">
+              <time datetime={p.date.toISOString()}>{formatDate(p.date)}</time>
+              {p.stories > 0 && <span>{p.stories} stories</span>}
+              {p.minutes && <span>{p.minutes} min read</span>}
+              <span class="sfeed-go">Read on Substack →</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <a class="sfeed-all mono" href={`${base}/archive`} target="_blank" rel="noopener">{s.archiveLabel} →</a>
+  </section>
+)}

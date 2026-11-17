@@ -1,0 +1,39 @@
+---
+import { HOME } from '../../data/home';
+const { timeline: t } = HOME;
+const n = t.chapters.length;
+---
+<section class="tl" data-timeline aria-label="Timeline">
+  <div class="tl-stage">
+    {t.chapters.map((c, i) => (
+      <div class="tl-img" data-tl-img style={`background-image:url(/images/chapter-${i + 1}.jpg)`}></div>
+    ))}
+    <div class="tl-shade"></div>
+    <svg class="tl-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M10 50 L36 2 M10 50 L36 98" vector-effect="non-scaling-stroke" />
+    </svg>
+    <span class="tl-disc mono">{t.discover}</span>
+    <div class="tl-thumbs" aria-hidden="true">
+      {t.chapters.map((_, i) => <i data-tl-thumb style={`background-image:url(/images/chapter-${((i + 2) % n) + 1}.jpg)`}></i>)}
+    </div>
+    <div class="tl-ghosts serif" aria-hidden="true">
+      {t.chapters.map((c) => <span data-tl-ghost>{c.title}</span>)}
+    </div>
+    <div class="tl-active">
+      {t.chapters.map((c) => (
+        <article class="tl-card" data-tl-card>
+          <div class="tl-tags mono"><b>{c.year}</b><span>{c.tags}</span></div>
+          <h3 class="serif">{c.title}</h3>
+          <p>{c.text}</p>
+        </article>
+      ))}
+    </div>
+    <div class="tl-chip">
+      <i class="tl-chip-ico">▲</i>
+      <div>
+        {t.chapters.map((c) => <div class="tl-chip-t" data-tl-chip><b>{c.chip}</b><span class="mono">{c.chipMeta}</span></div>)}
+      </div>
+      <span class="mono tl-chip-n" data-tl-n>01</span>
+    </div>
+  </div>
+</section>

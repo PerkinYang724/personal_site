@@ -5,18 +5,18 @@ import { getProjects } from '../../utils';
 const projects = await getProjects();
 ---
 <Base title="Projects">
-  <h1>Projects</h1>
-  <p class="lede">Things I've built, shipped, and tinkered with.</p>
-  <h2>{projects.length} projects</h2>
+  <header class="page-head">
+    <span class="mono dim">The work / {String(projects.length).padStart(2, '0')}</span>
+    <p class="serif">Things I've built, shipped and tinkered with</p>
+    <h1>Projects</h1>
+  </header>
   <div class="cards">
     {projects.map((p) => (
       <a class="card" href={`/projects/${p.id}/`}>
-        <h3>{p.data.title}</h3>
-        <p>{p.data.description}</p>
-        <div class="tags">
-          <span class="tag">{p.data.status}</span>
-          {p.data.tags.map((t) => <span class="tag">{t}</span>)}
-        </div>
+        <span class="mono dim">{p.data.category} / {p.data.status}</span>
+        <h3 class="serif">{p.data.title}</h3>
+        <p class="dim">{p.data.description}</p>
+        <span class="mono card-go">Open →</span>
       </a>
     ))}
   </div>

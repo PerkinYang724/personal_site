@@ -1,0 +1,50 @@
+---
+import { formatDate } from '../utils';
+
+interface Video {
+  id: string;
+  title: string;
+  summary?: string;
+  date?: Date;
+  duration?: string;
+  start?: number;
+}
+interface Props {
+  videos: Video[];
+  heading?: string;
+  channel?: string;
+}
+const { videos, heading = 'Videos', channel } = Astro.props;
+const isYouTube = channel?.includes('youtube.com');
+const handle = isYouTube ? channel!.match(/@[\w.-]+/)?.[0] : undefined;
+const watch = (v: Video) => `https://www.youtube.com/watch?v=${v.id}${v.start ? `&t=${v.start}s` : ''}`;
+---
+<section class="sfeed sfeed-wide" id="videos">
+  <header class="sfeed-head">
+    <div>
+      <span class="mono dim"><i class="sfeed-dot"></i>On YouTube{handle && ` / ${handle}`}</span>
+      <h2 class="serif">{heading}</h2>
+    </div>
+    {isYouTube && <a class="btn-light mono" href={`${channel}?sub_confirmation=1`} target="_blank" rel="noopener"><span>✦</span> Subscribe</a>}
+  </header>
+  <ol class="sfeed-list">
+    {videos.map((v, i) => (
+      <li>
+        <a href={watch(v)} target="_blank" rel="noopener">
+          <span class="sfeed-n mono dim">{String(i + 1).padStart(2, '0')}</span>
+          <img class="sfeed-img" src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`} alt="" loading="lazy" decoding="async" />
+          <span class="sfeed-body">
+            <b>{v.title}</b>
+            {v.summary && <small class="dim">{v.summary}</small>}
+          </span>
+          <span class="sfeed-meta mono dim">
+            {v.date && <time datetime={v.date.toISOString()}>{formatDate(v.date)}</time>}
+            {v.duration && <span>{v.duration}</span>}
+            <span class="sfeed-go">Watch on YouTube →</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ol>
+  {isYouTube && <a class="sfeed-all mono" href={`${channel}/videos`} target="_blank" rel="noopener">All videos on YouTube →</a>}
+</section>

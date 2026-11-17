@@ -1,0 +1,12 @@
+---
+import { SITE } from '../site';
+interface Props { markOnly?: boolean; hexMark?: boolean }
+const { markOnly = false, hexMark = false } = Astro.props;
+const split = SITE.name.lastIndexOf(' ');
+---
+<span class="logo">
+  {hexMark
+    ? <svg viewBox="128 127 444 444" aria-hidden="true"><path fill="currentColor" d="M350 127l64 37v74l-64 37v-74l-64-37zM221 201l64 37v74l-64 37v-74l-64-37zM478 201l64 37v74l-64 37v-74l-64-37zM350 275l64 37v74l-64 37v-74l-64-37zM221 349l64 37v74l-64 37v-74l-64-37zM478 349l64 37v74l-64 37v-74l-64-37zM350 423l64 37v74l-64 37v-74l-64-37z"/></svg>
+    : <svg viewBox="0 0 32 32" aria-hidden="true"><g stroke="currentColor" stroke-width="4.6" stroke-linecap="round"><path d="M16 4v24M5.6 10l20.8 12M5.6 22l20.8-12"/></g></svg>}
+  {!markOnly && <span class="logo-word">{SITE.name.slice(0, split + 1)}<em>{SITE.name.slice(split + 1)}</em><sup>©</sup></span>}
+</span>

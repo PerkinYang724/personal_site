@@ -1,18 +1,14 @@
 ---
 import Base from '../../layouts/Base.astro';
+import SubstackFeed from '../../components/SubstackFeed.astro';
 import NewsletterCta from '../../components/NewsletterCta.astro';
-import { formatDate, getPosts } from '../../utils';
-
-const posts = await getPosts('newsletter');
 ---
 <Base title="Newsletter">
-  <h1>Newsletter</h1>
-  <p class="lede">Every past issue, archived.</p>
-  <h2>{posts.length} {posts.length === 1 ? 'entry' : 'entries'}</h2>
-  <ul class="list">
-    {posts.map((p) => (
-      <li><a href={`/newsletter/${p.id}/`}>{p.data.title}</a><time>{formatDate(p.data.date)}</time></li>
-    ))}
-  </ul>
+  <header class="page-head">
+    <span class="mono dim">Tech &amp; Business Brief / Daily</span>
+    <p class="serif">A brief every morning, published on Substack</p>
+    <h1>Newsletter</h1>
+  </header>
+  <SubstackFeed limit={10} />
   <NewsletterCta />
 </Base>

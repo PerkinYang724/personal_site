@@ -1,0 +1,30 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../site';
+
+const path = Astro.url.pathname;
+const left = [
+  { href: '/writing/', label: 'Writing' },
+  { href: '/newsletter/', label: 'Newsletter' },
+  { href: '/projects/', label: 'Projects' },
+];
+---
+<header class="nav" data-nav>
+  <div class="nav-rule"></div>
+  <nav class="nav-row" aria-label="Main">
+    <div class="nav-left">
+      {left.map((n) => (
+        <a class="mono" data-scramble href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.label}</a>
+      ))}
+    </div>
+    <a class="nav-center" href="/">
+      <Logo markOnly hexMark />
+      <span>{SITE.name}</span>
+    </a>
+    <div class="nav-right">
+      <a class="mono" data-scramble href="/about/" aria-current={path.startsWith('/about') ? 'page' : undefined}>About</a>
+      <a class="btn-light mono" href={SITE.newsletterSignupUrl || '/newsletter/'}><span>✦</span> Subscribe</a>
+    </div>
+  </nav>
+  <i class="nav-dot l"></i><i class="nav-dot r"></i>
+</header>

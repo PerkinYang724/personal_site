@@ -1,0 +1,50 @@
+---
+import Logo from '../Logo.astro';
+import { HOME } from '../../data/home';
+const { hero } = HOME;
+const words = (s: string) => s.split(' ');
+---
+<section class="hero" data-hero>
+  <div class="hero-bg" data-hero-bg>
+    <video data-hero-video src={hero.video} poster={hero.poster} autoplay muted loop playsinline preload="auto" disablepictureinpicture aria-hidden="true"></video>
+    <script is:inline>
+      // Safari only reliably autoplays from these attributes, so reduced motion opts out here rather than opting in from script.
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const v = document.currentScript.previousElementSibling;
+        v.removeAttribute('autoplay');
+        v.preload = 'none';
+      }
+    </script>
+  </div>
+  <div class="hero-shade"></div>
+  <div class="hero-grain" data-hero-grain></div>
+  <div class="hero-dust" data-hero-dust></div>
+  <div class="hero-grid" data-hero-grid></div>
+  <div class="hero-cells" data-hero-cells></div>
+  <div class="hero-curtain" data-hero-curtain></div>
+  <div class="hud" aria-hidden="true">
+    <svg class="hud-lines" data-hud-lines>
+      {hero.trackers.map((t) => t.tether !== false && <line />)}
+    </svg>
+    {hero.trackers.map((t) => (
+      <div class={`tracker ${t.corner}`} data-tracker data-x={t.x} data-y={t.y} data-tether={String(t.tether !== false)}>
+        <span class="mono" data-tracker-label>{t.label}</span>
+      </div>
+    ))}
+  </div>
+  <div class="hero-center">
+    <h1 class="hero-logo" data-hero-logo aria-label="Perkin Yang"><Logo hexMark /></h1>
+  </div>
+  <div class="hero-foot">
+    <p class="hero-tag">
+      <span class="serif hero-line" data-wave>{words(hero.lineOne).map((w) => <span class="w">{w} </span>)}</span>
+      <span class="hero-line" data-wave>
+        {words(hero.lineTwo.dim).map((w) => <span class="w dim">{w} </span>)}
+        {words(hero.lineTwo.bright).map((w) => <span class="w">{w} </span>)}
+      </span>
+    </p>
+    <ul class="hero-tax mono" data-hero-tax>
+      {hero.taxonomy.map((t, i) => <>{i > 0 && <li class="tri" aria-hidden="true">△</li>}<li><a href={t.href}>{t.label}</a></li></>)}
+    </ul>
+  </div>
+</section>

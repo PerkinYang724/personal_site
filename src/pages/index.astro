@@ -1,40 +1,29 @@
 ---
 import Base from '../layouts/Base.astro';
-import NewsletterCta from '../components/NewsletterCta.astro';
-import { SITE } from '../site';
-import { formatDate, getPosts, getProjects } from '../utils';
-
-const writing = (await getPosts('writing')).slice(0, 5);
-const issues = (await getPosts('newsletter')).slice(0, 3);
-const projects = (await getProjects()).slice(0, 4);
+import Hero from '../components/home/Hero.astro';
+import Manifesto from '../components/home/Manifesto.astro';
+import Work from '../components/home/Work.astro';
+import Words from '../components/home/Words.astro';
+import Tape from '../components/home/Tape.astro';
+import Timeline from '../components/home/Timeline.astro';
+import Dispatch from '../components/home/Dispatch.astro';
+import Closing from '../components/home/Closing.astro';
+import Seabed from '../components/home/Seabed.astro';
+import '../styles/home.css';
 ---
-<Base>
-  <h1>Hi, I'm {SITE.name.split(' ')[0]}.</h1>
-  <p class="lede">{SITE.tagline}</p>
-
-  <div class="section-head"><h2>Recent writing</h2><a href="/writing/">All writing →</a></div>
-  <ul class="list">
-    {writing.map((p) => (
-      <li><a href={`/writing/${p.id}/`}>{p.data.title}</a><time>{formatDate(p.data.date)}</time></li>
-    ))}
-  </ul>
-
-  <div class="section-head"><h2>Projects</h2><a href="/projects/">All projects →</a></div>
-  <div class="cards">
-    {projects.map((p) => (
-      <a class="card" href={`/projects/${p.id}/`}>
-        <h3>{p.data.title}</h3>
-        <p>{p.data.description}</p>
-      </a>
-    ))}
-  </div>
-
-  <div class="section-head"><h2>Latest newsletter</h2><a href="/newsletter/">Archive →</a></div>
-  <ul class="list">
-    {issues.map((p) => (
-      <li><a href={`/newsletter/${p.id}/`}>{p.data.title}</a><time>{formatDate(p.data.date)}</time></li>
-    ))}
-  </ul>
-
-  <NewsletterCta />
+<Base home>
+  <Hero />
+  <Manifesto />
+  <Work />
+  <Words />
+  <Tape />
+  <Timeline />
+  <Dispatch />
+  <Closing />
+  <Seabed />
 </Base>
+<script>
+  import '../scripts/home';
+  import '../scripts/seabed';
+  import '../scripts/depth';
+</script>

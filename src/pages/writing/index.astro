@@ -6,12 +6,20 @@ import { formatDate, getPosts } from '../../utils';
 const posts = await getPosts('writing');
 ---
 <Base title="Writing">
-  <h1>Writing</h1>
-  <p class="lede">Essays, notes, and ideas.</p>
-  <h2>{posts.length} {posts.length === 1 ? 'entry' : 'entries'}</h2>
-  <ul class="list">
+  <header class="page-head">
+    <span class="mono dim">The writing / {String(posts.length).padStart(2, '0')}</span>
+    <p class="serif">Essays, notes and ideas</p>
+    <h1>Writing</h1>
+  </header>
+  <ul class="rows">
     {posts.map((p) => (
-      <li><a href={`/writing/${p.id}/`}>{p.data.title}</a><time>{formatDate(p.data.date)}</time></li>
+      <li>
+        <a href={`/writing/${p.id}/`}>
+          <span class="row-title">{p.data.title}{p.data.titleZh && <span class="mono pill row-pill">中 / EN</span>}</span>
+          <span class="row-desc dim">{p.data.description}</span>
+          <time class="mono dim">{formatDate(p.data.date)}</time>
+        </a>
+      </li>
     ))}
   </ul>
   

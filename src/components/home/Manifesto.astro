@@ -1,0 +1,17 @@
+---
+import { HOME } from '../../data/home';
+const { manifesto: m } = HOME;
+---
+<section class="manifesto" id="about" data-manifesto>
+  <div class="manifesto-pad">
+    <div class="eyebrow"><span class="serif">{m.label}</span><span class="pill mono">{m.tag}</span></div>
+    <p class="manifesto-text" data-spread>{m.body}</p>
+    <div class="manifesto-side" data-side>
+      <p class="dim">{m.caption}</p>
+      <figure class="portrait"><img src="/images/portrait.jpg" alt="" loading="lazy" /><figcaption class="mono">{m.portraitLabel}</figcaption></figure>
+    </div>
+    <svg class="circuit" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true" data-circuit>
+      <path pathLength="1" d="M0 118 H220 V74 H262 V40 M262 118 H320 V54 H354 M320 118 H880 V70" />
+    </svg>
+  </div>
+</section>

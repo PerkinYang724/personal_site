@@ -1,0 +1,46 @@
+---
+import Logo from '../Logo.astro';
+import { HOME } from '../../data/home';
+import { SITE } from '../../site';
+import { getSubstackCount, getSubstackPosts, substackUrl } from '../../substack';
+const { dispatch: d } = HOME;
+// The poster is the latest Substack post; the fanned cards are the six before it.
+const [posts, count] = await Promise.all([getSubstackPosts(7), getSubstackCount()]);
+const base = substackUrl();
+const latest = posts[0];
+const fan = posts.slice(1, 7);
+const short = (date: Date) => date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+const long = (date: Date) => date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+const facts = (p: (typeof posts)[number]) => [p.stories > 0 && `${p.stories} stories`, p.minutes && `${p.minutes} min read`].filter(Boolean).join(' / ');
+---
+<section class="dispatch" id="newsletter" data-dispatch>
+  <a class="poster" href={latest?.url ?? (base || '/newsletter/')} target={base ? '_blank' : undefined} rel={base ? 'noopener' : undefined} data-reveal>
+    <span class="poster-k serif">{d.posterKicker}</span>
+    <h2 class="serif">{latest ? short(latest.date) : d.posterFallback}</h2>
+    <canvas class="poster-grid" data-pixels aria-hidden="true"></canvas>
+    {latest && <span class="poster-t serif">{latest.hook}</span>}
+    <span class="poster-m">{[latest && facts(latest), count > 0 && `${count} issues so far`].filter(Boolean).join(' / ')}</span>
+    <div class="poster-foot serif">{d.posterFoot.map((t) => <span>{t}</span>)}</div>
+    <span class="poster-read mono">{d.posterRead} →</span>
+    <i class="poster-rail l mono">{latest ? long(latest.date) : ''}</i>
+    <i class="poster-rail r mono">{latest ? long(latest.date) : ''}</i>
+  </a>
+  <div class="fan-card" data-reveal>
+    <div class="fan-logo"><Logo /></div>
+    <div class="fan" data-fan>
+      {fan.map((p, i) => (
+        <a class:list={['leaf', { dark: i % 3 === 1 }]} href={p.url} target="_blank" rel="noopener" data-leaf>
+          <span class="mono">Brief / {short(p.date)}</span>
+          <b class="serif">{p.stories > 0 ? `${p.stories} stories` : short(p.date)}</b>
+          <small>{p.hook}</small>
+          <i class="leaf-bar"></i><i class="leaf-line"></i><i class="leaf-line s"></i>
+        </a>
+      ))}
+    </div>
+    <div class="fan-foot">
+      <span class="pill mono">{d.tag}</span>
+      <h3 class="serif">{d.heading.map((l) => <span>{l}</span>)}</h3>
+      <a class="btn-light mono" href={SITE.newsletterSignupUrl || '/newsletter/'}><span>✦</span> Subscribe</a>
+    </div>
+  </div>
+</section>

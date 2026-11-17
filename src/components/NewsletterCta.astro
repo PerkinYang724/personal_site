@@ -2,9 +2,8 @@
 import { SITE } from '../site';
 ---
 <section class="cta">
-  <h2>Get the newsletter</h2>
-  <p class="muted">Occasional notes on what I'm building, reading, and thinking about.</p>
-  {SITE.newsletterSignupUrl
-    ? <a class="button" href={SITE.newsletterSignupUrl}>Subscribe</a>
-    : <a class="button" href="/rss.xml">Follow via RSS</a>}
+  <span class="mono dim">Newsletter</span>
+  <h2 class="serif">Get the next issue.</h2>
+  <p class="dim">Notes on building with AI, and what it costs to think slowly while the tools get faster.</p>
+  <a class="btn-light mono" href={SITE.newsletterSignupUrl || '/rss.xml'}><span>✦</span> {SITE.newsletterSignupUrl ? 'Subscribe' : 'Follow via RSS'}</a>
 </section>

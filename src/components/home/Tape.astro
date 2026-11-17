@@ -1,0 +1,14 @@
+---
+import { HOME } from '../../data/home';
+const { tape } = HOME;
+---
+<section class="tape" data-tape aria-label="Status">
+  <div class="tape-bg" style="background-image:url(/images/tape.jpg)"></div>
+  <div class="tape-ghost serif" data-ghost aria-hidden="true">{tape.ghost.map((g) => <span>{g}</span>)}</div>
+  <div class="tape-col mono" data-tape-col aria-hidden="true" data-symbols={JSON.stringify(tape.symbols)}></div>
+  <div class="tape-bar">
+    <span class="mono">→ {tape.barLeft}</span>
+    <b class="mono" data-tape-now>STATUS 1.0000 / +0.00%</b>
+    <span class="mono">{tape.barRight}</span>
+  </div>
+</section>
