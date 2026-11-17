@@ -1,0 +1,25 @@
+# The Substack feed is read when the site builds, so the newsletter only updates on a rebuild.
+# This asks Vercel to rebuild on a schedule. Needs a repository secret named VERCEL_DEPLOY_HOOK
+# (Vercel project → Settings → Git → Deploy Hooks).
+name: Refresh newsletter
+
+on:
+  schedule:
+    # Times are UTC. Hourly through the morning in California, when the brief goes out, plus one evening catch-up.
+    - cron: '10 14-21 * * *'
+    - cron: '10 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ask Vercel to rebuild the site
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "::error::The VERCEL_DEPLOY_HOOK secret is not set."
+            exit 1
+          fi
+          curl --fail --silent --show-error -X POST "$HOOK" -o /dev/null
